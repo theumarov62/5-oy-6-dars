@@ -5,10 +5,148 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cars</title>
     <link rel="stylesheet" href="./css/output.css" />
+    <style>
+      @keyframes animatsiya {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      .char {
+        opacity: 0;
+        display: inline-block;
+        animation: animatsiya 0.5s forwards;
+      }
+
+      .char:nth-child(1) {
+        animation-delay: 0s;
+      }
+      .char:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      .char:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .char:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+      .char:nth-child(5) {
+        animation-delay: 0.6s;
+      }
+      .char:nth-child(6) {
+        animation-delay: 0.8s;
+      }
+      .char:nth-child(7) {
+        animation-delay: 1s;
+      }
+      .char:nth-child(8) {
+        animation-delay: 0.9s;
+      }
+      .char:nth-child(9) {
+        animation-delay: 1s;
+      }
+    </style>
   </head>
   <body>
-    <h2 id="timer"></h2>
-    <button id="f">Qotirish</button>
+    <!-- No data -->
+    <h3 id="nodata" class="hidden text-[30px]"></h3>
+    <!-- Loader -->
+    <div class="hidden absolute z-20 left-[650px] top-[200px]" id="loader">
+      <h3 class="text-[40px] text-center font-bold">
+        <span class="char">L</span>
+        <span class="char">o</span>
+        <span class="char">a</span>
+        <span class="char">d</span>
+        <span class="char">i</span>
+        <span class="char">n</span>
+        <span class="char">g</span>
+        <span class="char">.</span>
+        <span class="char">.</span>
+        <span class="char">.</span>
+      </h3>
+    </div>
+    <audio src="./audio/error-offline.mp3" id="offlineAudio"></audio>
+
+    <!-- Offline Page -->
+    <div
+      class="fixed inset-0 bg-accent flex items-center justify-center"
+      id="offlinePage"
+    >
+      <div class="flex flex-col max-w-96 w-full">
+        <h2 class="text-3xl mb-3">Internet bilan muammo bor!</h2>
+        <p class="mb-3">
+          Hurmatli foydalanuvchi siz hozir offline (Internetsiz) holatida
+          turibsiz. Web sitedan foydalanish uchun internet bilan ulaning
+        </p>
+      </div>
+    </div>
+
+    <section class="py-10">
+      <div class="container mx-auto px-5">
+        <div class="flex items-center gap-5 pb-5">
+          <select class="select select-primary bg-white" id="filterTypeSelect">
+            <option disabled selected>Nima bo'yicha filter qimoqchisiz?</option>
+            <option value="colorName">Rangi</option>
+            <option value="category">Turkumi</option>
+            <option value="country">Davlati</option>
+            <option value="maxSpeed">Tezligi</option>
+          </select>
+          <select
+            class="select select-primary bg-white hidden"
+            id="filterValueSelect"
+          >
+            <option disabled selected>All</option>
+          </select>
+          <label class="input bg-white">
+            <svg
+              class="h-[1em] opacity-50"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <g
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                stroke-width="2.5"
+                fill="none"
+                stroke="currentColor"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.3-4.3"></path>
+              </g>
+            </svg>
+            <input
+              type="search"
+              class="grow"
+              placeholder="Search"
+              id="searchInput"
+            />
+            <kbd class="kbd kbd-sm bg-white">⌘</kbd>
+            <kbd class="kbd kbd-sm bg-white">K</kbd>
+          </label>
+        </div>
+        <div class="grid grid-cols-3 gap-5" id="container"></div>
+      </div>
+    </section>
+    <div class="toast toast-top toast-end" id="toast">
+      <div class="alert alert-info">
+        <span id="toastText"></span>
+      </div>
+    </div>
+
+    <!-- Templates -->
+    <template id="cardTemplate">
+      <div class="card w-96 bg-base-100 card-md shadow-sm bg-white">
+        <div class="card-body">
+          <h2 class="card-title"></h2>
+          <p></p>
+          <span class="font-bold"></span>
+          <div class="justify-end card-actions"></div>
+        </div>
+      </div>
+    </template>
     <script type="module" src="./js/app.js"></script>
   </body>
 </html>

@@ -1,12 +1,22 @@
 const baseURL = "https://json-api.uz/api/project/fn44";
+const loader = document.getElementById("loader");
 
-export async function getAll() {
+const mainSection = document.querySelector("section");
+export async function getAll(query = "") {
   try {
-    const req = await fetch(baseURL + "/cars");
+    loader.classList.remove("hidden");
+    loader.classList.add("flex");
+    mainSection.style.display = "none";
+
+    const req = await fetch(baseURL + `/cars${query ? query : ""}`);
     const res = await req.json();
     return res;
   } catch {
     throw new Error("Ma'lumotlarni olishda xatolik bo'ldi!");
+  } finally {
+    loader.classList.add("hidden");
+    loader.classList.remove("flex");
+    mainSection.style.display = "block"; // qayta ko‘rsat
   }
 }
 
@@ -59,7 +69,6 @@ export async function editElement(editedData) {
 export async function getDelete(id) {
   try {
     const token = localStorage.getItem("token");
-
     await fetch(baseURL + `/cars/${id}`, {
       method: "DELETE",
       headers: {
