@@ -74,7 +74,7 @@ worker.addEventListener("message", (evt) => {
     option.disabled = true;
     option.textContent = "All";
     elFilterValeuSelect.appendChild(option);
-    result.forEach((el) => {
+    response.result.forEach((el) => {
       const option = document.createElement("option");
       option.textContent = el;
       option.value = el;

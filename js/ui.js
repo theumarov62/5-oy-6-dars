@@ -8,10 +8,14 @@ export function ui(data) {
 
     const elTitle = clone.querySelector("h2");
     const elDescription = clone.querySelector("p");
-    const country = clone.querySelector("span");
+    const country = clone.querySelector("#country");
+    const trim = clone.querySelector("#trim");
+    const color = clone.querySelector("#color");
     elTitle.innerText = element.name;
     elDescription.innerText = element.description;
+    trim.innerText = element.trim;
     country.innerText = element.country;
+    color.style.background = element.color;
     elContainer.appendChild(clone);
   });
 }

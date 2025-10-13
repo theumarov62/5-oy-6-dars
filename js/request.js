@@ -7,7 +7,7 @@ export async function getAll(query = "") {
     loader.classList.remove("hidden");
     loader.classList.add("flex");
     mainSection.style.display = "none";
-
+    
     const req = await fetch(baseURL + `/cars${query ? query : ""}`);
     const res = await req.json();
     return res;

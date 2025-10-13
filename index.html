@@ -48,6 +48,12 @@
       .char:nth-child(9) {
         animation-delay: 1s;
       }
+
+      .bg-shadow {
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+          rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+          rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+      }
     </style>
   </head>
   <body>
@@ -100,7 +106,7 @@
           >
             <option disabled selected>All</option>
           </select>
-          <label class="input bg-white">
+          <label class="input bg-white border-1 border-black rounded-[3px]">
             <svg
               class="h-[1em] opacity-50"
               xmlns="http://www.w3.org/2000/svg"
@@ -119,7 +125,7 @@
             </svg>
             <input
               type="search"
-              class="grow"
+              class="grow border-black"
               placeholder="Search"
               id="searchInput"
             />
@@ -137,12 +143,23 @@
     </div>
 
     <!-- Templates -->
-    <template id="cardTemplate">
-      <div class="card w-96 bg-base-100 card-md shadow-sm bg-white">
+    <template id="cardTemplate" class="relative">
+      <div class="card w-96 card-md shadow-sm bg-white">
         <div class="card-body">
           <h2 class="card-title"></h2>
           <p></p>
-          <span class="font-bold"></span>
+          <span class="font-bold" id="country"></span>
+          <span id="trim">trim: </span>
+          <span id="generation">generation: </span>
+          <span id="year">year: </span>
+          <span class="relative"
+            >color:
+            <span
+              id="color"
+              class="w-[15px] h-[15px] rounded-[50%] absolute left-[40px] top-[2px] bg-shadow"
+            >
+            </span>
+          </span>
           <div class="justify-end card-actions"></div>
         </div>
       </div>
