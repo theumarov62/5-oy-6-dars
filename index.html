@@ -148,25 +148,26 @@
       </div>
     </div>
     <!-- Modals -->
-    <button id="editModal" class="modal">open modal</button>
-    <dialog id="my_modal_1" class="modal">
-      <div class="modal-box">
+    <!-- Open the modal using ID.showModal() method -->
+    <dialog id="editModal" class="modal">
+      <div class="modal-box bg-white">
         <h3 class="text-lg font-bold" id="editedElementTitle"></h3>
-        <p class="py-4">Siz shu elementni tahrirlayapsiz!</p>
+        <p class="py-4">Siz shu elemetni tahrirlayapsiz!</p>
         <form id="editForm">
-          <input
-            type="text"
-            name="name"
-            placeholder="Mashina nomi"
-            class="input"
-          />
-          <textarea
-            class="textarea"
-            name="description"
-            placeholder="Mashina uchun izoh"
-          ></textarea>
-
-          <button class="btn btn-active" type="submit">Tasdiqlash</button>
+          <div class="flex flex-col gap-[4px]">
+            <input
+              type="text"
+              placeholder="Mashina nomini kiriting"
+              name="name"
+              class="input bg-white text-black"
+            />
+            <textarea
+              class="textarea bg-white text-black"
+              placeholder="Mashina uchun izoh"
+              name="description"
+            ></textarea>
+          </div>
+          <button class="btn btn-active">Tasdiqlash</button>
         </form>
         <div class="modal-action">
           <form method="dialog">

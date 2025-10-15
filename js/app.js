@@ -1,10 +1,11 @@
 import { checkAuth } from "./pages/check-auth.js";
-import { deleteElementLocal } from "./pages/crud.js";
-import { changeLocalData } from "./pages/local-data.js";
+import { deleteElementLocal, editElementLocal } from "./pages/crud.js";
+import { changeLocalData, localData } from "./pages/local-data.js";
 import { deleteElement, getAll } from "./request.js";
 import { ui } from "./ui.js";
 const elToast = document.getElementById("toast");
 const offlineAudio = document.getElementById("offlineAudio");
+const elEditForm = document.getElementById("editForm");
 const elContainer = document.getElementById("container");
 const offlinePage = document.getElementById("offlinePage");
 const elToastText = document.getElementById("toastText");
@@ -18,6 +19,7 @@ const elBomb = document.getElementById("bomb");
 
 let backendData = null;
 let uiData = null;
+let editedElementId = null;
 let worker = new Worker("./worker.js");
 let filterKey = null;
 let filterValue = null;
@@ -116,7 +118,15 @@ elContainer.addEventListener("click", (evt) => {
   const target = evt.target;
   if (target.classList.contains("js-edit")) {
     if (checkAuth()) {
+      editedElementId = target.id;
+      const elEditModal = document.getElementById("editModal");
+      elEditModal.showModal();
+      const foundElement = localData.find((el) => el.id == target.id);
+      elEditForm.name.value = foundElement.name;
+      elEditForm.description.value = foundElement.description;
     } else {
+      window.location.href = "/pages/login.html";
+      alert("Ro'yhatdan o'tishingiz kerak");
     }
   }
 });
@@ -134,7 +144,7 @@ elContainer.addEventListener("click", (evt) => {
         .catch()
         .finally(() => {});
     } else {
-      window.location.href = "/pages/login.html";
+      window.location.href = "/pages/register.html";
 
       alert("Register qiling avval");
     }
@@ -161,5 +171,27 @@ elSearchInput.addEventListener("keydown", (e) => {
   ) {
     elBackspace.currentTime = 0;
     elBackspace.play();
+  }
+});
+
+elEditForm.addEventListener("submit", (evt) => {
+  evt.preventDefault();
+  evt.preventDefault();
+  const formData = new FormData(elForm);
+  const result = {};
+  formData.forEach((value, key) => {
+    result[key] = value;
+  });
+
+  if (editedElementId) {
+    result.id = editedElementId;
+    editElement(result)
+      .then((res) => {
+        editElementLocal(res);
+      })
+      .catch((er) => {})
+      .finally(() => {
+        elEditModal.closeModal();
+      });
   }
 });

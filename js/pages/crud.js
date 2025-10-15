@@ -10,7 +10,7 @@ export function addElementLocal(newData) {
   changeLocalData(result);
 }
 
-export function editElement(editedData) {
+export function editElementLocal(editedData) {
   const result = localData.map((el) => {
     if (el.id === editedData.id) {
       return editedData;
