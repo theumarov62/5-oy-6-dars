@@ -1,10 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="bg-white">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Details</title>
     <link rel="stylesheet" href="../css/output.css" />
+    <style>
+      .bg-shadow {
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+          rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+          rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+      }
+    </style>
   </head>
-  <body></body>
+  <body class="items-center justify-center flex pt-[100px]">
+    <a
+      href="../index.html"
+      class="text-black absolute top-[10px] left-[10px] flex gap-[2px] hover:gap-[8px] text-[24px] transition-all duration-300"
+    >
+      <span> &larr; </span>
+      Asosiy sahifa</a
+    >
+    <div
+      class="bg-white rounded-xl shadow-lg max-w-lg w-full p-6 text-center relative"
+    >
+      <h1 id="name" class="text-2xl font-semibold text-indigo-600 mb-3">
+        Yuklanmoqda
+      </h1>
+      <p class="text-gray-700 leading-relaxed" id="description">Description:</p>
+      <p class="text-gray-700 leading-relaxed" id="category">Category:</p>
+      <span class="text-gray-700 leading-relaxed relative" id="color">
+        Color:
+        <span
+          id="colorBg"
+          class="absolute w-[15px] h-[15px] rounded-[50%] top-[5px] left-[45px] bg-shadow"
+        ></span>
+      </span>
+      <p class="text-gray-700 leading-relaxed" id="colorName">Color Name:</p>
+      <p class="text-gray-700 leading-relaxed" id="country">Country</p>
+      <p class="text-gray-700 leading-relaxed" id="doorCount">DoorCount:</p>
+      <p class="text-gray-700 leading-relaxed" id="engine">Engine:</p>
+      <p class="text-gray-700 leading-relaxed" id="fuelConsumption">
+        fuelConsumtion
+      </p>
+      <p class="text-gray-700 leading-relaxed" id="city">City:</p>
+      <p class="text-gray-700 leading-relaxed" id="combiend">Combiend:</p>
+      <p class="text-gray-700 leading-relaxed" id="highway">Highway:</p>
+      <p class="text-gray-700 leading-relaxed" id="fuelType">FuelType:</p>
+      <p class="text-gray-700 leading-relaxed" id="horsepower">HorsePower:</p>
+      <p class="text-gray-700 leading-relaxed" id="generation">Generation:</p>
+      <p class="text-gray-700 leading-relaxed" id="maxSpeed">MaxSpeed:</p>
+      <p class="text-gray-700 leading-relaxed" id="seatCount">SeatCount:</p>
+      <p class="text-gray-700 leading-relaxed" id="trim">Trim:</p>
+      <p class="text-gray-700 leading-relaxed" id="year">Year:</p>
+    </div>
+
+    <script type="module" src="../js/pages/details.js"></script>
+  </body>
 </html>
