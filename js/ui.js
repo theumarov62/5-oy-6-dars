@@ -15,6 +15,7 @@ export function ui(data) {
     const trim = clone.querySelector("#trim");
     const color = clone.querySelector("#color");
     const year = clone.querySelector("#year");
+    const maxSpeed = clone.querySelector("#maxSpeed");
 
     // ID
     elTitle.innerText = element.name;
@@ -27,6 +28,7 @@ export function ui(data) {
     country.innerText = "Country: " + element.country;
     color.style.background = element.color;
     year.innerText = "Year: " + element.year;
+    maxSpeed.innerText = "MaxSpeed: " + element.maxSpeed;
     elContainer.appendChild(clone);
   });
 }
