@@ -54,26 +54,77 @@
           rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
           rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
       }
+
+      #curtain {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(180deg, #0f172a, #1e293b);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+        transform: translateY(0);
+        transition: transform 0.8s ease, opacity 0.6s ease;
+      }
+
+      #curtain.hide {
+        transform: translateY(-100%);
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .loader {
+        width: 48px;
+        height: 48px;
+        border: 5px solid #38bdf8;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      h1 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+
+      p {
+        opacity: 0.7;
+      }
+
+      .content {
+        opacity: 0;
+        transition: opacity 0.6s ease;
+      }
+
+      .content.show {
+        opacity: 1;
+      }
     </style>
   </head>
   <body>
+    <!-- Loader -->
+    <div
+      id="loader"
+      class="fixed inset-0 bg-[#0f172a] text-white flex flex-col items-center justify-center z-50 transform -translate-y-full transition-transform duration-700 ease-in-out"
+    >
+      <h1 class="text-3xl font-semibold mb-4">Cars loyihasi</h1>
+      <div
+        class="w-12 h-12 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin"
+      ></div>
+      <p class="mt-4 opacity-70 text-sm">Ma’lumot yuklanmoqda...</p>
+    </div>
+
     <!-- No data -->
     <h3 id="nodata" class="hidden text-[30px]"></h3>
-    <!-- Loader -->
-    <div class="hidden absolute z-20 left-[650px] top-[200px]" id="loader">
-      <h3 class="text-[40px] text-center font-bold">
-        <span class="char">L</span>
-        <span class="char">o</span>
-        <span class="char">a</span>
-        <span class="char">d</span>
-        <span class="char">i</span>
-        <span class="char">n</span>
-        <span class="char">g</span>
-        <span class="char">.</span>
-        <span class="char">.</span>
-        <span class="char">.</span>
-      </h3>
-    </div>
+
     <audio
       src="./audio/cringe-sound-effect-video.mp3"
       id="offlineAudio"
@@ -135,11 +186,12 @@
               placeholder="Search"
               id="searchInput"
             />
-            <kbd class="kbd kbd-sm bg-white">⌘</kbd>
-            <kbd class="kbd kbd-sm bg-white">K</kbd>
           </label>
         </div>
-        <div class="grid grid-cols-3 gap-5" id="container"></div>
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 place-items-center"
+          id="container"
+        ></div>
       </div>
     </section>
     <div class="toast toast-top toast-end" id="toast">
@@ -180,26 +232,40 @@
 
     <!-- Templates -->
     <template id="cardTemplate" class="relative">
-      <div class="card w-96 card-md shadow-sm bg-white">
-        <div class="card-body">
-          <h2 class="card-title"></h2>
-          <p></p>
-          <span class="font-bold" id="country"></span>
-          <span id="trim">trim: </span>
-          <span id="generation">generation: </span>
-          <span id="year">year: </span>
-          <span id="maxSpeed"></span>
+      <div
+        class="card shadow-sm flex flex-col bg-white sm:flex-row md:flex-row lg:flex-row xl:flex-row gap-2 w-full max-w-[95%] mx-auto p-2"
+      >
+        <!-- Card body -->
+        <div class="card-body w-full bg-white">
+          <h2
+            class="card-title text-lg sm:text-xl md:text-2xl font-semibold break-words"
+          ></h2>
+          <p
+            class="text-sm sm:text-base text-gray-700 leading-relaxed break-words"
+          ></p>
 
-          <span class="relative"
-            >color:
+          <div class="flex flex-wrap gap-2 text-sm sm:text-base mt-2">
+            <span class="font-bold" id="country"></span>
+            <span id="trim">trim: </span>
+            <span id="generation">generation: </span>
+            <span id="year">year: </span>
+            <span id="maxSpeed"></span>
+          </div>
+
+          <div class="flex items-center gap-2 mt-2 text-sm sm:text-base">
+            <span>color:</span>
             <span
               id="color"
-              class="w-[15px] h-[15px] rounded-[50%] absolute left-[40px] top-[2px] bg-shadow"
+              class="inline-block w-4 h-4 sm:w-[15px] sm:h-[15px] rounded-full border border-gray-300"
+            ></span>
+          </div>
+
+          <!-- Actions -->
+          <div class="card-actions justify-end flex flex-wrap gap-2 mt-4">
+            <button
+              class="btn btn-error btn-sm sm:btn-md js-delete"
+              title="Delete"
             >
-            </span>
-          </span>
-          <div class="justify-end card-actions">
-            <button class="btn btn-error js-delete">
               <svg
                 class="pointer-events-none"
                 width="15"
@@ -217,7 +283,10 @@
               </svg>
             </button>
 
-            <button class="btn btn-warning js-edit">
+            <button
+              class="btn btn-warning btn-sm sm:btn-md js-edit"
+              title="Edit"
+            >
               <svg
                 class="pointer-events-none"
                 width="15"
@@ -234,8 +303,12 @@
                 ></path>
               </svg>
             </button>
-            <a class="btn btn-soft btn-info js-info" target="_blank">
-              <svg
+
+            <a
+              class="btn btn-info btn-sm sm:btn-md js-info"
+              target="_blank"
+              title="Info"
+              ><svg
                 class="pointer-events-none"
                 width="15"
                 height="15"

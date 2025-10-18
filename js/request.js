@@ -4,9 +4,8 @@ const loader = document.getElementById("loader");
 const mainSection = document.querySelector("section");
 export async function getAll(query = "") {
   try {
-    loader.classList.remove("hidden");
-    loader.classList.add("flex");
-    mainSection.style.display = "none";
+    loader.classList.remove("-translate-y-full");
+    loader.classList.add("translate-y-0");
 
     const req = await fetch(baseURL + `/cars${query ? query : ""}`);
     const res = await req.json();
@@ -14,12 +13,14 @@ export async function getAll(query = "") {
   } catch {
     throw new Error("Ma'lumotlarni olishda xatolik bo'ldi!");
   } finally {
-    loader.classList.add("hidden");
-    loader.classList.remove("flex");
-    mainSection.style.display = "block"; // qayta ko‘rsat
+    loader.classList.remove("translate-y-0");
+    loader.classList.add("-translate-y-full");
+
+    setTimeout(() => {
+      mainSection.style.display = "block";
+    }, 600);
   }
 }
-
 
 export async function addElement(newData) {
   try {

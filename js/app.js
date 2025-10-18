@@ -17,6 +17,10 @@ const elSearchAudio = document.getElementById("searchAudio");
 const elBackspace = document.getElementById("backspace");
 const elBomb = document.getElementById("bomb");
 
+const curtain = document.getElementById("curtain");
+const content = document.getElementById("content");
+const carsList = document.getElementById("cars");
+
 let backendData = null;
 let uiData = null;
 let editedElementId = null;
