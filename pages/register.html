@@ -9,37 +9,37 @@
   <body
     class="bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center min-h-screen"
   >
-    <a href="../index.html">Asosiy sahifa</a>
-
     <div class="bg-white rounded-3xl shadow-2xl p-8 sm:p-12 w-[90%] max-w-md">
       <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">
         Ro‘yxatdan o‘tish
       </h1>
 
-      <form class="space-y-4">
+      <form id="form" class="space-y-4">
         <!-- Ism -->
         <div>
           <label class="block text-gray-600 mb-1" for="name">Ism</label>
           <input
             type="text"
             id="name"
+            name="username"
             placeholder="Ismingiz"
+            required
             class="w-full px-4 py-2 rounded-xl border border-gray-300 text-black focus:ring-2 focus:ring-blue-400 focus:outline-none"
           />
         </div>
 
-        <!-- Email -->
+        <!-- Parol -->
         <div>
-          <label class="block text-gray-600 mb-1" for="email">Email</label>
+          <label class="block text-gray-600 mb-1" for="password">Parol</label>
           <input
-            type="text"
-            id="email"
-            placeholder="Email manzilingiz"
-            class="w-full px-4 py-2 rounded-xl border text-black border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Maxfiy so‘z yarating"
+            required
+            class="w-full px-4 py-2 rounded-xl border border-gray-300 text-black focus:ring-2 focus:ring-blue-400 focus:outline-none"
           />
         </div>
-
-        <!-- Parol -->
 
         <!-- Register tugmasi -->
         <button
@@ -56,5 +56,7 @@
         <a href="./login.html" class="text-blue-600 hover:underline">Kirish</a>
       </p>
     </div>
+
+    <script type="module" src="../js/pages/register.js"></script>
   </body>
 </html>

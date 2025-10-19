@@ -40,31 +40,20 @@ export function pagination(total, limit, skip) {
   const pageCount = (total - remained) / limit;
   let activePage = skip / limit + 1;
 
-  for (let i = 1; i <= pageCount; i++) {
+  for (let i = 1; i <= pageCount + (remained > 0 ? 1 : 0); i++) {
     const button = document.createElement("button");
     button.classList.add(
       "join-item",
       "btn",
       "bg-white",
       "text-black",
-      "js-page"
+      "js-page",
+      activePage === i ? "btn-active" : null
     );
-
-    if (activePage === i) {
-      button.classList.add("btn-active");
-    }
 
     button.innerText = i;
 
     button.dataset.skip = limit * i - limit;
     elPagination.appendChild(button);
-  }
-
-  if (remained > 0) {
-    const button = document.createElement("button");
-    button.classList.add("join-item", "btn", "js-page");
-    button.innerText = pageCount + 1;
-    elPagination.appendChild(button);
-    button.dataset.skip = pageCount * limit;
   }
 }

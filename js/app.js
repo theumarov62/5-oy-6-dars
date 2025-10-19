@@ -1,8 +1,31 @@
 import { checkAuth } from "./pages/check-auth.js";
 import { deleteElementLocal, editElementLocal } from "./pages/crud.js";
+import { getFormData } from "./pages/get-form-data.js";
 import { changeLocalData, localData } from "./pages/local-data.js";
-import { deleteElement, getAll } from "./request.js";
+import { deleteElement, editElement, getAll } from "./request.js";
 import { pagination, ui } from "./ui.js";
+// Channel
+const channel1 = new BroadcastChannel("channel_1");
+
+channel1.onmessage = (evt) => {
+  if (evt.data.action === "redirect") {
+    window.location.href = evt.data.address;
+  }
+
+  if (evt.data.action === "delete") {
+    deleteElementLocal(evt.data.address);
+  }
+
+  if (evt.data.action === "edit") {
+    editElementLocal(evt.data.address);
+  }
+};
+
+// Page Skip and Limit
+const limit = 12;
+let skip = 0;
+
+// HTML Selection
 const elToast = document.getElementById("toast");
 const offlineAudio = document.getElementById("offlineAudio");
 const elEditForm = document.getElementById("editForm");
@@ -12,24 +35,86 @@ const elToastText = document.getElementById("toastText");
 const elFilterTypeSelect = document.getElementById("filterTypeSelect");
 const elFilterValeuSelect = document.getElementById("filterValueSelect");
 const elSearchInput = document.getElementById("searchInput");
-const elNoData = document.getElementById("noData");
+const elNoData = document.getElementById("nodata");
 const elSearchAudio = document.getElementById("searchAudio");
 const elBackspace = document.getElementById("backspace");
+const elPagination = document.getElementById("pagination");
 const elBomb = document.getElementById("bomb");
-
+const registerAlert = document.getElementById("registerAlert");
+const closeAlert = document.getElementById("closeAlert");
+const goRegister = document.getElementById("goRegister");
+const elEditModal = document.getElementById("editModal");
 const curtain = document.getElementById("curtain");
 const content = document.getElementById("content");
 const carsList = document.getElementById("cars");
 
-const limit = 12;
-let skip = 0;
-
+// Variables
 let backendData = null;
 let uiData = null;
 let editedElementId = null;
 let worker = new Worker("./worker.js");
 let filterKey = null;
 let filterValue = null;
+
+// Register Modal
+closeAlert.addEventListener("click", () => {
+  registerAlert.classList.add("hidden");
+});
+
+goRegister.addEventListener("click", () => {
+  window.location.href = "./pages/register.html";
+});
+
+// Warning
+function warning() {
+  channel1.postMessage({ action: "redirect", address: "/pages/login.html" });
+  registerAlert.classList.remove("hidden");
+}
+goRegister.addEventListener("click", () => {
+  registerAlert.classList.add("hidden");
+  channel1.postMessage({ action: "redirect", address: "/pages/register.html" });
+  window.location.href = "/pages/register.html";
+});
+// Offline and Online event
+window.addEventListener("online", () => {
+  offlinePage.classList.add("hidden");
+});
+window.addEventListener("offline", () => {
+  offlineAudio.play();
+  offlinePage.classList.remove("hidden");
+});
+
+// Web Worker
+worker.addEventListener("message", (evt) => {
+  const response = evt.data;
+
+  if (response.target === "filterByType") {
+    elFilterValeuSelect.classList.remove("hidden");
+    elFilterValeuSelect.innerHTML = "";
+    const option = document.createElement("option");
+    option.selected = true;
+    option.disabled = true;
+    option.textContent = "All";
+    elFilterValeuSelect.appendChild(option);
+    response.result.forEach((el) => {
+      const option = document.createElement("option");
+      option.textContent = el;
+      option.value = el;
+      elFilterValeuSelect.appendChild(option);
+    });
+  } else if (response.target === "search") {
+    const elContainer = document.getElementById("container");
+    elContainer.innerHTML = null;
+    if (response.result.length > 0) {
+      ui(response.result);
+    } else {
+      elNoData.classList.remove("hidden");
+      elNoData.textContent = "No Result";
+    }
+  }
+});
+
+// ContentLoaded Offline or Online
 window.addEventListener("DOMContentLoaded", () => {
   if (window.navigator.onLine === false) {
     offlinePage.classList.remove("hidden");
@@ -86,59 +171,18 @@ elSearchInput.addEventListener("change", (evt) => {
   });
 });
 
-worker.addEventListener("message", (evt) => {
-  const response = evt.data;
-
-  if (response.target === "filterByType") {
-    elFilterValeuSelect.classList.remove("hidden");
-    elFilterValeuSelect.innerHTML = "";
-    const option = document.createElement("option");
-    option.selected = true;
-    option.disabled = true;
-    option.textContent = "All";
-    elFilterValeuSelect.appendChild(option);
-    response.result.forEach((el) => {
-      const option = document.createElement("option");
-      option.textContent = el;
-      option.value = el;
-      elFilterValeuSelect.appendChild(option);
-    });
-  } else if (response.target === "search") {
-    const elContainer = document.getElementById("container");
-    elContainer.innerHTML = null;
-    if (response.result.length > 0) {
-      ui(response.result);
-    } else {
-      elNoData.classList.remove("hidden");
-      elNoData.textContent = "No Result";
-    }
-  }
-});
-
-window.addEventListener("online", () => {
-  offlinePage.classList.add("hidden");
-});
-window.addEventListener("offline", () => {
-  offlineAudio.play();
-  offlinePage.classList.remove("hidden");
-});
-
 // CRUD
-
-// Edit
 elContainer.addEventListener("click", (evt) => {
   const target = evt.target;
   if (target.classList.contains("js-edit")) {
     if (checkAuth()) {
       editedElementId = target.id;
-      const elEditModal = document.getElementById("editModal");
       elEditModal.showModal();
       const foundElement = localData.find((el) => el.id == target.id);
       elEditForm.name.value = foundElement.name;
       elEditForm.description.value = foundElement.description;
     } else {
-      window.location.href = "/pages/login.html";
-      alert("Ro'yhatdan o'tishingiz kerak");
+      warning();
     }
   }
 });
@@ -152,13 +196,12 @@ elContainer.addEventListener("click", (evt) => {
       deleteElement(target.id)
         .then((id) => {
           deleteElementLocal(id);
+          channel1.postMessage({ action: "delete", address: id });
         })
         .catch()
         .finally(() => {});
     } else {
-      window.location.href = "/pages/register.html";
-
-      alert("Register qiling avval");
+      warning();
     }
   }
 });
@@ -166,6 +209,7 @@ elContainer.addEventListener("click", (evt) => {
 // Info
 elContainer.addEventListener("click", (evt) => {});
 
+// Search
 elSearchInput.addEventListener("keydown", (e) => {
   if (e.key.length === 1) {
     elSearchAudio.currentTime = 0;
@@ -186,31 +230,27 @@ elSearchInput.addEventListener("keydown", (e) => {
   }
 });
 
+// Edit
 elEditForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
-  evt.preventDefault();
-  const formData = new FormData(elEditForm);
-  const result = {};
-  formData.forEach((value, key) => {
-    result[key] = value;
-  });
+  const result = getFormData(elEditForm);
 
   if (editedElementId) {
     result.id = editedElementId;
     editElement(result)
       .then((res) => {
         editElementLocal(res);
+        channel1.postMessage({ action: "edit", address: res });
       })
       .catch((er) => {})
       .finally(() => {
-        elEditModal.closeModal();
+        editedElementId = null;
+        elEditModal.close();
       });
   }
 });
 
 // Pagination
-const elPagination = document.getElementById("pagination");
-
 elPagination.addEventListener("click", (evt) => {
   if (evt.target.classList.contains("js-page")) {
     skip = evt.target.dataset.skip;
