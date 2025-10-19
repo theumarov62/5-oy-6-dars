@@ -51,7 +51,7 @@ export function pagination(total, limit, skip) {
     );
 
     if (activePage === i) {
-      button.classList.add("text-red-900");
+      button.classList.add("btn-active");
     }
 
     button.innerText = i;
