@@ -22,7 +22,7 @@ const content = document.getElementById("content");
 const carsList = document.getElementById("cars");
 
 const limit = 12;
-let skip = 12;
+let skip = 0;
 
 let backendData = null;
 let uiData = null;
@@ -44,6 +44,8 @@ window.addEventListener("DOMContentLoaded", () => {
       changeLocalData(backendData.data);
     })
     .catch((error) => {
+      elToast.classList.remove("hidden");
+
       elToastText.textContent = error.message;
     });
 });
@@ -69,6 +71,8 @@ elFilterValeuSelect.addEventListener("change", (evt) => {
         ui(res.data);
       })
       .catch((error) => {
+        elToast.classList.remove("hidden");
+
         elToastText.textContent = error.message;
       });
   }
@@ -200,6 +204,24 @@ elEditForm.addEventListener("submit", (evt) => {
       .catch((er) => {})
       .finally(() => {
         elEditModal.closeModal();
+      });
+  }
+});
+
+// Pagination
+const elPagination = document.getElementById("pagination");
+
+elPagination.addEventListener("click", (evt) => {
+  if (evt.target.classList.contains("js-page")) {
+    skip = evt.target.dataset.skip;
+    getAll(`?limit=${limit}&skip=${skip}`)
+      .then((res) => {
+        ui(res.data);
+        pagination(res.total, res.limit, res.skip);
+      })
+      .catch((error) => {
+        elToast.classList.remove("hidden");
+        elToastText.textContent = error.message;
       });
   }
 });

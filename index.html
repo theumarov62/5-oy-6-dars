@@ -123,9 +123,7 @@
     </div>
 
     <!-- Pagination -->
-    <div class="join mb-[10px] container mx-auto" id="pagination">
-    
-    </div>
+
     <!-- No data -->
     <h3 id="nodata" class="hidden text-[30px]"></h3>
 
@@ -153,6 +151,7 @@
 
     <section class="py-10">
       <div class="container mx-auto px-5">
+        <div class="join mb-[10px] container mx-auto" id="pagination"></div>
         <div class="flex items-center gap-5 pb-5">
           <select class="select select-primary bg-white" id="filterTypeSelect">
             <option disabled selected>Nima bo'yicha filter qimoqchisiz?</option>
@@ -198,12 +197,13 @@
         ></div>
       </div>
     </section>
-    <div class="toast toast-top toast-end" id="toast">
+    <div class="toast toast-top toast-end hidden" id="toast">
       <div class="alert alert-info">
         <span id="toastText"></span>
       </div>
     </div>
     <!-- Modals -->
+
     <!-- Open the modal using ID.showModal() method -->
     <dialog id="editModal" class="modal">
       <div class="modal-box bg-white">

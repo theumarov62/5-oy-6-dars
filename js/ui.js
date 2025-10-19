@@ -42,25 +42,29 @@ export function pagination(total, limit, skip) {
 
   for (let i = 1; i <= pageCount; i++) {
     const button = document.createElement("button");
-    button.classList.add("join-item", "btn", "bg-white", "text-black");
+    button.classList.add(
+      "join-item",
+      "btn",
+      "bg-white",
+      "text-black",
+      "js-page"
+    );
 
     if (activePage === i) {
-      button.classList.add("btn-active");
+      button.classList.add("text-red-900");
     }
 
     button.innerText = i;
-    button.dataset.limit = limit;
-    if (i > 1) {
-      button.dataset.skip = limit * i - limit;
-    }
 
+    button.dataset.skip = limit * i - limit;
     elPagination.appendChild(button);
   }
 
   if (remained > 0) {
     const button = document.createElement("button");
-    button.classList.add("join-item", "btn");
+    button.classList.add("join-item", "btn", "js-page");
     button.innerText = pageCount + 1;
     elPagination.appendChild(button);
+    button.dataset.skip = pageCount * limit;
   }
 }
