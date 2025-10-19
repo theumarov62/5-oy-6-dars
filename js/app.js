@@ -2,7 +2,7 @@ import { checkAuth } from "./pages/check-auth.js";
 import { deleteElementLocal, editElementLocal } from "./pages/crud.js";
 import { changeLocalData, localData } from "./pages/local-data.js";
 import { deleteElement, getAll } from "./request.js";
-import { ui } from "./ui.js";
+import { pagination, ui } from "./ui.js";
 const elToast = document.getElementById("toast");
 const offlineAudio = document.getElementById("offlineAudio");
 const elEditForm = document.getElementById("editForm");
@@ -21,6 +21,9 @@ const curtain = document.getElementById("curtain");
 const content = document.getElementById("content");
 const carsList = document.getElementById("cars");
 
+const limit = 12;
+let skip = 12;
+
 let backendData = null;
 let uiData = null;
 let editedElementId = null;
@@ -34,9 +37,10 @@ window.addEventListener("DOMContentLoaded", () => {
     offlinePage.classList.add("hidden");
   }
 
-  getAll()
+  getAll(`?limit=${limit}&skip=${skip}`)
     .then((res) => {
       backendData = res;
+      pagination(backendData.total, backendData.limit, backendData.skip);
       changeLocalData(backendData.data);
     })
     .catch((error) => {
@@ -181,7 +185,7 @@ elSearchInput.addEventListener("keydown", (e) => {
 elEditForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
   evt.preventDefault();
-  const formData = new FormData(elForm);
+  const formData = new FormData(elEditForm);
   const result = {};
   formData.forEach((value, key) => {
     result[key] = value;
