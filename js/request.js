@@ -1,17 +1,29 @@
 const baseURL = "https://json-api.uz/api/project/fn44";
 const loader = document.getElementById("loader");
-
 const mainSection = document.querySelector("section");
+const toast = document.getElementById("toast");
+const elToastText = document.getElementById("toastText");
+// Toast warning
+function toastWarning() {
+  elToast.classList.remove("hidden");
+  elToastText.textContent = "Ro‘yxatdan o‘tmagansiz!";
+  setTimeout(() => {
+    elToast.classList.add("hidden");
+  }, 3000);
+}
+
 export async function getAll(query = "") {
   try {
     loader.classList.remove("-translate-y-full");
     loader.classList.add("translate-y-0");
 
-    const req = await fetch(baseURL + `/cars${query ? query : ""}`);
+    const req = await fetch(`${baseURL}/cars${query ? query : ""}`);
     const res = await req.json();
+
+    if (!req.ok) throw new Error(res.message || "Ma’lumotlarni olishda xato!");
     return res;
-  } catch {
-    throw new Error("Ma'lumotlarni olishda xatolik bo'ldi!");
+  } catch (error) {
+    throw new Error(error.message);
   } finally {
     loader.classList.remove("translate-y-0");
     loader.classList.add("-translate-y-full");
@@ -22,10 +34,17 @@ export async function getAll(query = "") {
   }
 }
 
+// AddCar
 export async function addElement(newData) {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    toast("Ro'yhatdan o'tmagansiz");
+    return;
+  }
+
   try {
-    const token = localStorage.getItem("token");
-    const req = await fetch(baseURL + "/cars", {
+    const req = await fetch(`${baseURL}/cars`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -33,17 +52,27 @@ export async function addElement(newData) {
       },
       body: JSON.stringify(newData),
     });
+
     const res = await req.json();
+    if (!req.ok)
+      throw new Error(res.message || "Ma’lumotni qo‘shishda xato bo‘ldi!");
     return res;
-  } catch {
-    throw new Error("Ma'lumotni qo'shishda xatolik bo'ldi!");
+  } catch (error) {
+    throw new Error(error.message);
   }
 }
 
+// Edit
 export async function editElement(editedData) {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    toastWarning();
+    return;
+  }
+
   try {
-    const token = localStorage.getItem("token");
-    const req = await fetch(baseURL + `/cars/${editedData.id}`, {
+    const req = await fetch(`${baseURL}/cars/${editedData.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -51,24 +80,40 @@ export async function editElement(editedData) {
       },
       body: JSON.stringify(editedData),
     });
+
     const res = await req.json();
-    return res;
-  } catch {
-    throw new Error("Ma'lumotni tahrirlashda xatolik bo'ldi!");
+    if (!req.ok) {
+      toastWarning();
+      return res;
+    }
+  } catch (error) {
+    toastWarning();
   }
 }
 
+// Delete
 export async function deleteElement(id) {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    throw new Error("Token topilmadi! Avval tizimga kiring.");
+  }
+
   try {
-    const token = localStorage.getItem("token");
-    await fetch(baseURL + `/cars/${id}`, {
+    const req = await fetch(`${baseURL}/cars/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+
+    if (!req.ok) {
+      const res = await req.json();
+      throw new Error(res.message || "Ma’lumotni o‘chirishda xato bo‘ldi!");
+    }
+
     return id;
-  } catch {
-    throw new Error("Ma'lumotni o'chirishda xatolik bo'ldi!");
+  } catch (error) {
+    throw new Error(error.message);
   }
 }

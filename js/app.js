@@ -1,8 +1,12 @@
 import { checkAuth } from "./pages/check-auth.js";
-import { deleteElementLocal, editElementLocal } from "./pages/crud.js";
+import {
+  deleteElementLocal,
+  editElementLocal,
+  addElementLocal,
+} from "./pages/crud.js";
 import { getFormData } from "./pages/get-form-data.js";
 import { changeLocalData, localData } from "./pages/local-data.js";
-import { deleteElement, editElement, getAll } from "./request.js";
+import { deleteElement, editElement, getAll, addElement } from "./request.js";
 import { pagination, ui } from "./ui.js";
 // Channel
 const channel1 = new BroadcastChannel("channel_1");
@@ -250,6 +254,50 @@ elEditForm.addEventListener("submit", (evt) => {
   }
 });
 
+// AddCar
+const elAddForm = document.getElementById("form");
+
+if (elAddForm) {
+  elAddForm.addEventListener("submit", (evt) => {
+    evt.preventDefault();
+
+    const newData = getFormData(elAddForm);
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toastWarning();
+      return;
+    }
+
+    addElement(newData)
+      .then((res) => {
+        if (res) {
+          elToast.classList.remove("hidden");
+          elToastText.textContent = "Ma'lumot Qo'shildi!";
+          setTimeout(() => {
+            elToast.classList.add("hidden");
+          }, 3000);
+          elAddForm.reset();
+
+          getAll(`?limit=${limit}&skip=${skip}`).then((r) => {
+            ui(r.data);
+          });
+        }
+      })
+      .catch((err) => {
+        toastWarning();
+      });
+  });
+}
+
+function toastWarning() {
+  elToast.classList.remove("hidden");
+  elToastText.textContent = "Ro‘yxatdan o‘tmagansiz!";
+  setTimeout(() => {
+    elToast.classList.add("hidden");
+  }, 3000);
+}
+
 // Pagination
 elPagination.addEventListener("click", (evt) => {
   if (evt.target.classList.contains("js-page")) {
@@ -262,6 +310,9 @@ elPagination.addEventListener("click", (evt) => {
       .catch((error) => {
         elToast.classList.remove("hidden");
         elToastText.textContent = error.message;
+        setTimeout(() => {
+          elToast.classList.add("hidden");
+        }, 3000);
       });
   }
 });

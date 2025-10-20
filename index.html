@@ -160,6 +160,57 @@
       </div>
     </div>
 
+    <!-- Add -->
+    <form
+      id="form"
+      class="max-w-md mx-auto bg-white shadow-md rounded-2xl p-6 space-y-4 mt-10"
+    >
+      <h2 class="text-2xl font-semibold text-gray-800 text-center">
+        Yangi mashina qo‘shish
+      </h2>
+
+      <div>
+        <label for="title" class="block text-sm font-medium text-gray-700 mb-1"
+          >Nomi</label
+        >
+        <input
+          type="text"
+          id="title"
+          name="name"
+          placeholder="Masalan: BMW X5"
+          required
+          class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        />
+      </div>
+
+      <div>
+        <label
+          for="category"
+          class="block text-sm font-medium text-gray-700 mb-1"
+          >Mashina uchun izoh</label
+        >
+        <input
+          type="text"
+          id="category"
+          name="description"
+          placeholder="Masalan: SUV"
+          required
+          class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="w-full bg-blue-600 text-white font-semibold py-2 rounded-xl hover:bg-blue-700 active:scale-95 transition-all duration-150"
+      >
+        Qo‘shish
+      </button>
+
+      <p id="result" class="text-center text-sm text-gray-600 mt-3"></p>
+    </form>
+
+    <p id="result"></p>
+
     <section class="py-10">
       <div class="container mx-auto px-5">
         <div
