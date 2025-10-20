@@ -3,7 +3,7 @@ const loader = document.getElementById("loader");
 const mainSection = document.querySelector("section");
 const toast = document.getElementById("toast");
 const elToastText = document.getElementById("toastText");
-// Toast warning
+// Toast warning textContent
 function toastWarning() {
   elToast.classList.remove("hidden");
   elToastText.textContent = "Ro‘yxatdan o‘tmagansiz!";
@@ -96,7 +96,7 @@ export async function deleteElement(id) {
   const token = localStorage.getItem("token");
 
   if (!token) {
-    throw new Error("Token topilmadi! Avval tizimga kiring.");
+    elToastText.textContent = `Ro'yhatdan o'ting`;
   }
 
   try {
