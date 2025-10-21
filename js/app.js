@@ -48,6 +48,7 @@ const registerAlert = document.getElementById("registerAlert");
 const closeAlert = document.getElementById("closeAlert");
 const goRegister = document.getElementById("goRegister");
 const elEditModal = document.getElementById("editModal");
+const elNoDataImg = document.getElementById("noDataImg");
 const curtain = document.getElementById("curtain");
 const content = document.getElementById("content");
 const carsList = document.getElementById("cars");
@@ -111,9 +112,11 @@ worker.addEventListener("message", (evt) => {
     elContainer.innerHTML = null;
     if (response.result.length > 0) {
       ui(response.result);
+      elNoDataImg.src = "";
     } else {
       elNoData.classList.remove("hidden");
-      elNoData.textContent = "No Result";
+      elNoData.classList.add("flex");
+      elNoDataImg.src = "./images/no-data.jfif";
     }
   }
 });
