@@ -26,7 +26,7 @@ export function ui(data) {
     elDescription.textContent = "Description: " + element.description;
     trim.textContent = "Trim: " + element.trim;
     country.textContent = "Davlat: " + element.country;
-    color.style.background = "Color: " + element.color;
+    color.style.background = element.color;
     year.textContent = "Year: " + element.year;
     maxSpeed.textContent = "MaxSpeed: " + element.maxSpeed;
     elContainer.appendChild(clone);

@@ -3,6 +3,7 @@ const loader = document.getElementById("loader");
 const mainSection = document.querySelector("section");
 const toast = document.getElementById("toast");
 const elToastText = document.getElementById("toastText");
+
 // Toast warning textContent
 function toastWarning() {
   elToast.classList.remove("hidden");

@@ -188,6 +188,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
       elToastText.textContent = error.message;
     });
+
   getAll(`?limit=${limit}&skip=${skip}`)
     .then((res) => {
       pagination(res.total, res.limit, res.skip);
@@ -195,7 +196,6 @@ window.addEventListener("DOMContentLoaded", () => {
     })
     .catch((error) => {
       elToast.classList.remove("hidden");
-
       elToastText.textContent = error.message;
     });
 });
