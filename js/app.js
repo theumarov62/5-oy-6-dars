@@ -48,9 +48,9 @@ const elNoDataImg = document.getElementById("noDataImg");
 const elAddCarButton = document.getElementById("AddCarButton");
 const elCloseAddModal = document.getElementById("closeAddModal");
 const elAddForm = document.getElementById("form");
-const curtain = document.getElementById("curtain");
-const content = document.getElementById("content");
-const carsList = document.getElementById("cars");
+// const curtain = document.getElementById("curtain");
+// const content = document.getElementById("content");
+// const carsList = document.getElementById("cars");
 
 // Inputlar Mashina qo'shish uchun
 const elTitle = document.getElementById("title");
