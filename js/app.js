@@ -1,10 +1,5 @@
 import { checkAuth } from "./pages/check-auth.js";
-import {
-  deleteElementLocal,
-  editElementLocal,
-  addElementLocal,
-} from "./pages/crud.js";
-import { darkBtn, updateDarkMode, loadDarkMode } from "./pages/dark-mode.js";
+import { deleteElementLocal, editElementLocal } from "./pages/crud.js";
 import { getFormData } from "./pages/get-form-data.js";
 import { changeLocalData, localData } from "./pages/local-data.js";
 import { deleteElement, editElement, getAll, addElement } from "./request.js";
@@ -434,6 +429,3 @@ if (localStorage.getItem("token")) {
 }
 
 // Dark mode
-darkBtn.addEventListener("click", updateDarkMode);
-
-loadDarkMode();
