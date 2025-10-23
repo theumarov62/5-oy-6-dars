@@ -417,9 +417,26 @@ if (localStorage.getItem("token")) {
   registerWarning.classList.remove("hidden");
 }
 
-// Dark mode
-const dark = document.getElementById("dark");
+const darkBtn = document.getElementById("dark");
 const body = document.body;
-dark.addEventListener("click", () => {
+
+function loadDarkMode() {
+  const darkModeStatus = localStorage.getItem("darkMode");
+  if (darkModeStatus === "enabled") {
+    body.classList.add("dark");
+  } else {
+    body.classList.remove("dark");
+  }
+}
+
+darkBtn.addEventListener("click", () => {
   body.classList.toggle("dark");
+
+  if (body.classList.contains("dark")) {
+    localStorage.setItem("darkMode", "enabled");
+  } else {
+    localStorage.setItem("darkMode", "disabled");
+  }
 });
+
+window.addEventListener("DOMContentLoaded", loadDarkMode);
