@@ -1,6 +1,7 @@
 export function ui(data) {
   const elContainer = document.getElementById("container");
   elContainer.innerHTML = null;
+
   data.forEach((element) => {
     const clone = document
       .getElementById("cardTemplate")
@@ -16,7 +17,6 @@ export function ui(data) {
     const color = clone.querySelector("#color");
     const year = clone.querySelector("#year");
     const maxSpeed = clone.querySelector("#maxSpeed");
-
     // ID
     elTitle.textContent = element.name;
     elInfoBtn.href = `/pages/details.html?id=${element.id}`;

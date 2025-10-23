@@ -123,6 +123,18 @@
     </style>
   </head>
   <body>
+    <a
+      class="bg-black border-[2px] border-white text-white rounded-[8px] w-[250px] h-[35px] p-1 fixed top-[10px] left-[10px] z-2"
+      href="./pages/register.html"
+      id="registerWarning"
+      >Ro'yahtdan o'ting, bo'nus oling</a
+    >
+    <button
+      id="dark"
+      class="rounded-[8px] cursor-pointer absolute right-[180px] top-[15px]"
+    >
+      Dark
+    </button>
     <!-- Loader -->
     <div
       id="loader"
@@ -169,7 +181,7 @@
       </div>
     </div>
     <button
-      class="w-[140px] h-[50px] bg-black text-white rounded-[8px] cursor-pointer absolute right-[10px] top-[10px]"
+      class="absolute right-[10px] top-[10px] cursor-pointer w-[140px] h-[50px] bg-black border-[2px] border-white text-white rounded-[8px]"
       id="AddCarButton"
     >
       Add
@@ -483,7 +495,10 @@
           id="pagination"
         ></div>
         <div class="flex items-center gap-5 pb-5">
-          <select class="select select-primary bg-white" id="filterTypeSelect">
+          <select
+            class="select select-primary bg-transparent"
+            id="filterTypeSelect"
+          >
             <option disabled selected>Nima bo'yicha filter qimoqchisiz?</option>
             <option value="colorName">Rangi</option>
             <option value="category">Turkumi</option>
@@ -496,7 +511,9 @@
           >
             <option disabled selected>All</option>
           </select>
-          <label class="input bg-white border-1 border-black rounded-[3px]">
+          <label
+            class="input bg-transparent border-1 border-black rounded-[3px]"
+          >
             <svg
               class="h-[1em] opacity-50"
               xmlns="http://www.w3.org/2000/svg"
@@ -826,15 +843,16 @@
     <!-- Templates -->
     <template id="cardTemplate" class="relative">
       <div
-        class="card shadow-sm flex flex-col bg-white sm:flex-row md:flex-row lg:flex-row xl:flex-row gap-2 w-full max-w-[95%] mx-auto p-2"
+        class="card shadow-sm flex flex-col bg-transparent sm:flex-row md:flex-row lg:flex-row xl:flex-row gap-2 w-full max-w-[95%] mx-auto p-2"
       >
         <!-- Card body -->
-        <div class="card-body w-full bg-white">
+        <div class="card-body w-full bg-transparent">
           <h2
             class="card-title text-lg sm:text-xl md:text-2xl font-semibold break-words"
           ></h2>
           <p
-            class="text-sm sm:text-base text-gray-700 leading-relaxed break-words"
+            class="text-sm sm:text-base leading-relaxed break-words"
+            id="desc"
           ></p>
 
           <div class="flex flex-wrap gap-2 text-sm sm:text-base mt-2 flex-col">
@@ -849,7 +867,7 @@
             <span>color:</span>
             <span
               id="color"
-              class="inline-block w-4 h-4 sm:w-[15px] sm:h-[15px] rounded-full border border-gray-300"
+              class="inline-block w-4 h-4 sm:w-[15px] sm:h-[15px] rounded-full border border-gray-300 bg-white"
             ></span>
           </div>
 

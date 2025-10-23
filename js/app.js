@@ -4,6 +4,7 @@ import {
   editElementLocal,
   addElementLocal,
 } from "./pages/crud.js";
+import { darkBtn, updateDarkMode, loadDarkMode } from "./pages/dark-mode.js";
 import { getFormData } from "./pages/get-form-data.js";
 import { changeLocalData, localData } from "./pages/local-data.js";
 import { deleteElement, editElement, getAll, addElement } from "./request.js";
@@ -244,7 +245,10 @@ elCloseAddModal.addEventListener("click", () => {
   elAddForm.classList.add("hidden");
   elAddForm.classList.remove("flex");
 });
-// CRUD
+
+// CRUD Amallar
+
+// Edit
 elContainer.addEventListener("click", (evt) => {
   const target = evt.target;
 
@@ -422,3 +426,14 @@ elPagination.addEventListener("click", (evt) => {
       });
   }
 });
+const registerWarning = document.getElementById("registerWarning");
+if (localStorage.getItem("token")) {
+  registerWarning.classList.add("hidden");
+} else {
+  registerWarning.classList.remove("hidden");
+}
+
+// Dark mode
+darkBtn.addEventListener("click", updateDarkMode);
+
+loadDarkMode();
