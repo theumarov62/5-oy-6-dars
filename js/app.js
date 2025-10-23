@@ -165,34 +165,24 @@ worker.addEventListener("message", (evt) => {
 });
 
 // ContentLoaded Offline or Online
-window.addEventListener("DOMContentLoaded", () => {
-  if (window.navigator.onLine === false) {
+window.addEventListener("DOMContentLoaded", async () => {
+  if (!window.navigator.onLine) {
     offlinePage.classList.remove("hidden");
   } else {
     offlinePage.classList.add("hidden");
   }
 
-  getAll()
-    .then((res) => {
-      backendData = res;
-      pagination(backendData.total, backendData.limit, backendData.skip);
-      changeLocalData(backendData.data);
-    })
-    .catch((error) => {
-      elToast.classList.remove("hidden");
+  try {
+    backendData = await getAll();
 
-      elToastText.textContent = error.message;
-    });
-
-  getAll(`?limit=${limit}&skip=${skip}`)
-    .then((res) => {
-      pagination(res.total, res.limit, res.skip);
-      changeLocalData(res.data);
-    })
-    .catch((error) => {
-      elToast.classList.remove("hidden");
-      elToastText.textContent = error.message;
-    });
+    const res = await getAll(`?limit=${limit}&skip=${skip}`);
+    ui(res.data);
+    pagination(res.total, res.limit, res.skip);
+    changeLocalData(res.data);
+  } catch (error) {
+    elToast.classList.remove("hidden");
+    elToastText.textContent = error.message;
+  }
 });
 
 elFilterTypeSelect.addEventListener("change", (evt) => {
@@ -365,9 +355,7 @@ elEditForm.addEventListener("submit", (evt) => {
 if (elAddForm) {
   elAddForm.addEventListener("submit", (evt) => {
     evt.preventDefault();
-
     const newData = getFormData(elAddForm);
-
     const token = localStorage.getItem("token");
     if (!token) {
       toastWarning();
@@ -421,6 +409,7 @@ elPagination.addEventListener("click", (evt) => {
       });
   }
 });
+
 const registerWarning = document.getElementById("registerWarning");
 if (localStorage.getItem("token")) {
   registerWarning.classList.add("hidden");
@@ -429,3 +418,8 @@ if (localStorage.getItem("token")) {
 }
 
 // Dark mode
+const dark = document.getElementById("dark");
+const body = document.body;
+dark.addEventListener("click", () => {
+  body.classList.toggle("dark");
+});

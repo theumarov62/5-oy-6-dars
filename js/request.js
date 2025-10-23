@@ -105,7 +105,11 @@ export async function deleteElement(id) {
   const token = localStorage.getItem("token");
 
   if (!token) {
+    toast.classList.remove("hidden");
     elToastText.textContent = `Ro'yhatdan o'ting`;
+    setTimeout(() => {
+      toast.classList.add("hidden");
+    }, 3000);
   }
 
   try {
@@ -117,7 +121,7 @@ export async function deleteElement(id) {
     });
 
     if (!req.ok) {
-      const res = await req.text();
+      const res = await req.json();
       throw new Error(res.message || "Ma’lumotni o‘chirishda xato bo‘ldi!");
     }
 

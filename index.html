@@ -4,8 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cars</title>
+
     <link rel="stylesheet" href="./css/output.css" />
     <style>
+      body.dark {
+        background-color: black;
+        color: white;
+      }
+      body.light {
+        background-color: white;
+        color: black;
+      }
       @keyframes fadeIn {
         from {
           opacity: 0;
@@ -493,12 +502,14 @@
           class="join mb-[10px] container mx-auto flex-wrap gap-[4px]"
           id="pagination"
         ></div>
-        <div class="flex items-center gap-5 pb-5">
+        <div class="flex items-center gap-5 pb-5 z-[4]">
           <select
-            class="select select-primary bg-transparent"
+            class="select select-primary bg-gray-200 text-black z-[8]"
             id="filterTypeSelect"
           >
-            <option disabled selected>Nima bo'yicha filter qimoqchisiz?</option>
+            <option disabled selected class="z-[4]">
+              Nima bo'yicha filter qimoqchisiz?
+            </option>
             <option value="colorName">Rangi</option>
             <option value="category">Turkumi</option>
             <option value="country">Davlati</option>
