@@ -20,7 +20,15 @@ export async function getAll(query = "") {
     const req = await fetch(`${baseURL}/cars${query ? query : ""}`);
     const res = await req.json();
 
-    if (!req.ok) throw new Error(res.message || "Ma’lumotlarni olishda xato!");
+    if (!req.ok) {
+      elToastText.innerText = "Ma’lumotlarni olishda xatolik!";
+      toast.classList.remove("hidden");
+    } else {
+      setTimeout(() => {
+        toast.classList.add("hidden");
+      }, 3000);
+      toast.classList.add("hidden");
+    }
     return res;
   } catch (error) {
     throw new Error(error.message);
@@ -108,7 +116,7 @@ export async function deleteElement(id) {
     });
 
     if (!req.ok) {
-      const res = await req.json();
+      const res = await req.text();
       throw new Error(res.message || "Ma’lumotni o‘chirishda xato bo‘ldi!");
     }
 

@@ -32,7 +32,7 @@ let skip = 0;
 // HTML Selection
 const elToast = document.getElementById("toast");
 const offlineAudio = document.getElementById("offlineAudio");
-const elEditForm = document.getElementById("editForm");
+const elEditForm = document.getElementById("editCarForm");
 const elContainer = document.getElementById("container");
 const offlinePage = document.getElementById("offlinePage");
 const elToastText = document.getElementById("toastText");
@@ -49,9 +49,54 @@ const closeAlert = document.getElementById("closeAlert");
 const goRegister = document.getElementById("goRegister");
 const elEditModal = document.getElementById("editModal");
 const elNoDataImg = document.getElementById("noDataImg");
+const elAddCarButton = document.getElementById("AddCarButton");
+const elCloseAddModal = document.getElementById("closeAddModal");
+const elAddForm = document.getElementById("form");
 const curtain = document.getElementById("curtain");
 const content = document.getElementById("content");
 const carsList = document.getElementById("cars");
+
+// Inputlar Mashina qo'shish uchun
+const elTitle = document.getElementById("title");
+const elDescription = document.getElementById("description");
+const elCategory = document.getElementById("category");
+const elColor = document.getElementById("color");
+const elColorName = document.getElementById("colorName");
+const elCountry = document.getElementById("country");
+const elDoorCount = document.getElementById("doorCount");
+const elEngine = document.getElementById("engine");
+const elFuelConsumption = document.getElementById("fuelConsumption");
+const elCity = document.getElementById("city");
+const elCombiend = document.getElementById("combiend");
+const elHighway = document.getElementById("highway");
+const elFuelType = document.getElementById("fuelType");
+const elHorsepower = document.getElementById("horsepower");
+const elGeneration = document.getElementById("generation");
+const elMaxSpeed = document.getElementById("maxSpeed");
+const elSeatCount = document.getElementById("seatCount");
+const elTrim = document.getElementById("trim");
+const elYear = document.getElementById("year");
+
+// Inputlar Tahrirlash uchun
+const elEditTitle = document.getElementById("editTitle");
+const elEditDescription = document.getElementById("editDescription");
+const elEditCategory = document.getElementById("editCategory");
+const elEditColor = document.getElementById("editColor");
+const elEditColorName = document.getElementById("editColorName");
+const elEditCountry = document.getElementById("editCountry");
+const elEditDoorCount = document.getElementById("editDoorCount");
+const elEditEngine = document.getElementById("editEngine");
+const elEditFuelConsumption = document.getElementById("editFuelConsumption");
+const elEditCity = document.getElementById("editCity");
+const elEditCombiend = document.getElementById("editCombiend");
+const elEditHighway = document.getElementById("editHighway");
+const elEditFuelType = document.getElementById("editFuelType");
+const elEditHorsepower = document.getElementById("editHorsepower");
+const elEditGeneration = document.getElementById("editGeneration");
+const elEditMaxSpeed = document.getElementById("editMaxSpeed");
+const elEditSeatCount = document.getElementById("editSeatCount");
+const elEditTrim = document.getElementById("editTrim");
+const elEditYear = document.getElementById("editYear");
 
 // Variables
 let backendData = null;
@@ -75,11 +120,13 @@ function warning() {
   channel1.postMessage({ action: "redirect", address: "/pages/login.html" });
   registerAlert.classList.remove("hidden");
 }
+
 goRegister.addEventListener("click", () => {
   registerAlert.classList.add("hidden");
   channel1.postMessage({ action: "redirect", address: "/pages/register.html" });
   window.location.href = "/pages/register.html";
 });
+
 // Offline and Online event
 window.addEventListener("online", () => {
   offlinePage.classList.add("hidden");
@@ -129,11 +176,21 @@ window.addEventListener("DOMContentLoaded", () => {
     offlinePage.classList.add("hidden");
   }
 
-  getAll(`?limit=${limit}&skip=${skip}`)
+  getAll()
     .then((res) => {
       backendData = res;
       pagination(backendData.total, backendData.limit, backendData.skip);
       changeLocalData(backendData.data);
+    })
+    .catch((error) => {
+      elToast.classList.remove("hidden");
+
+      elToastText.textContent = error.message;
+    });
+  getAll(`?limit=${limit}&skip=${skip}`)
+    .then((res) => {
+      pagination(res.total, res.limit, res.skip);
+      changeLocalData(res.data);
     })
     .catch((error) => {
       elToast.classList.remove("hidden");
@@ -178,26 +235,65 @@ elSearchInput.addEventListener("change", (evt) => {
   });
 });
 
+//  Add Car button
+elAddCarButton.addEventListener("click", () => {
+  elAddForm.classList.remove("hidden");
+  elAddForm.classList.add("flex");
+});
+elCloseAddModal.addEventListener("click", () => {
+  elAddForm.classList.add("hidden");
+  elAddForm.classList.remove("flex");
+});
 // CRUD
 elContainer.addEventListener("click", (evt) => {
   const target = evt.target;
+
   if (target.classList.contains("js-edit")) {
     if (checkAuth()) {
       editedElementId = target.id;
-      elEditModal.showModal();
+
+      document.querySelectorAll("#editCarForm input").forEach((input) => {
+        input.value = "";
+      });
+
       const foundElement = localData.find((el) => el.id == target.id);
-      elEditForm.name.value = foundElement.name;
-      elEditForm.description.value = foundElement.description;
+      if (!foundElement) return;
+
+      elEditTitle.value = foundElement.name || "No Data";
+      elEditDescription.value = foundElement.description || "No Data";
+      elEditCategory.value = foundElement.category || "No Data";
+      elEditColor.value = foundElement.color || "No Data";
+      elEditColorName.value = foundElement.colorName || "No Data";
+      elEditCountry.value = foundElement.country || "No Data";
+      elEditDoorCount.value = foundElement.doorCount || "No Data";
+      elEditEngine.value = foundElement.engine || "No Data";
+      elEditFuelConsumption.value = foundElement.fuelConsumption || "No Data";
+      elEditCity.value = foundElement.city || "No Data";
+      elEditCombiend.value = foundElement.combiend || "No Data";
+      elEditHighway.value = foundElement.highway || "No Data";
+      elEditFuelType.value = foundElement.fuelType || "No Data";
+      elEditHorsepower.value = foundElement.horsepower || "No Data";
+      elEditGeneration.value = foundElement.generation || "No Data";
+      elEditMaxSpeed.value = foundElement.maxSpeed || "No Data";
+      elEditSeatCount.value = foundElement.seatCount || "No Data";
+      elEditTrim.value = foundElement.trim || "No Data";
+      elEditYear.value = foundElement.year || "No Data";
+
+      elEditModal.showModal();
     } else {
       warning();
     }
   }
 });
 
+// const deleteModal = document.getElementById("deleteModal");
+// const noDeleteBtn = document.getElementById("noDeleteBtn");
+// const deleteBtn = document.getElementById("deleteBtn");
+
 // Delete
-const deleteModal = document.getElementById("deleteModal");
 elContainer.addEventListener("click", (evt) => {
   const target = evt.target;
+
   if (target.classList.contains("js-delete")) {
     if (checkAuth() && confirm("Rostan ham o'chirmoqchimisiz?")) {
       deleteElement(target.id)
@@ -207,8 +303,13 @@ elContainer.addEventListener("click", (evt) => {
         })
         .catch()
         .finally(() => {});
-    } else {
+    } else if (!confirm) {
+      registerAlert.classList.add("hidden");
       warning();
+    } else if (!checkAuth()) {
+      registerAlert.classList.remove("hidden");
+    } else {
+      registerAlert.classList.add("hidden");
     }
   }
 });
@@ -244,6 +345,8 @@ elEditForm.addEventListener("submit", (evt) => {
 
   if (editedElementId) {
     result.id = editedElementId;
+    getAll();
+
     editElement(result)
       .then((res) => {
         editElementLocal(res);
@@ -253,12 +356,12 @@ elEditForm.addEventListener("submit", (evt) => {
       .finally(() => {
         editedElementId = null;
         elEditModal.close();
+        getAll();
       });
   }
 });
 
 // AddCar
-const elAddForm = document.getElementById("form");
 
 if (elAddForm) {
   elAddForm.addEventListener("submit", (evt) => {

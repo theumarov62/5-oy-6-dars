@@ -18,17 +18,17 @@ export function ui(data) {
     const maxSpeed = clone.querySelector("#maxSpeed");
 
     // ID
-    elTitle.innerText = element.name;
+    elTitle.textContent = element.name;
     elInfoBtn.href = `/pages/details.html?id=${element.id}`;
     elDeleteBtn.id = element.id;
     elEditBtn.id = element.id;
 
-    elDescription.innerText = element.description;
-    trim.innerText = "Trim: " + element.trim;
-    country.innerText = "Country: " + element.country;
-    color.style.background = element.color;
-    year.innerText = "Year: " + element.year;
-    maxSpeed.innerText = "MaxSpeed: " + element.maxSpeed;
+    elDescription.textContent = "Description: " + element.description;
+    trim.textContent = "Trim: " + element.trim;
+    country.textContent = "Davlat: " + element.country;
+    color.style.background = "Color: " + element.color;
+    year.textContent = "Year: " + element.year;
+    maxSpeed.textContent = "MaxSpeed: " + element.maxSpeed;
     elContainer.appendChild(clone);
   });
 }

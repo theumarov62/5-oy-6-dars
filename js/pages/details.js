@@ -31,25 +31,66 @@ async function getById(id) {
 
 function ui(data) {
   document.title = data.name;
-  elTitle.textContent = data.name;
-  description.textContent = data.description;
-  colorBg.style.background = data.color;
-  category.textContent = data.category;
-  colorName.textContent = "ColorName: " + data.colorName;
-  country.textContent = "Davlat" + data.country;
-  doorCount.textContent = "DoorCount: " + data.doorCount;
-  engine.textContent = "Engine: " + data.engine;
-  fuelConsumption.textContent = "FuelConsumption: " + data.fuelConsumption;
-  city.textContent = "City: " + data.city;
-  combiend.textContent = "Combiend: " + data.combiend;
-  highway.textContent = "Highway: " + data.highway;
-  fuelType.textContent = "FuelType: " + data.fuelType;
-  horsepower.textContent = "HorsePower: " + data.horsepower;
-  generation.textContent = "Generation: " + data.generation;
-  maxSpeed.textContent = "MaxSpeed: " + data.maxSpeed;
-  seatCount.textContent = "SeatCount: " + data.seatCount;
-  trim.textContent = "Trim: " + data.trim;
-  year.textContent = "Year: " + data.year;
+  elTitle.innerText = data.name;
+  elTitle.textContent =
+    "Nomi: " + (data.name !== undefined ? data.name : "No data");
+  combiend.textContent =
+    "Combiend: " + (data.combiend !== undefined ? data.combiend : "No data");
+  description.textContent =
+    "Description: " +
+    (data.description !== undefined ? data.description : "No data");
+  colorBg.style.background =
+    "Color: " + (data.color !== undefined ? data.color : "No data");
+  category.textContent =
+    "Category: " + (data.category !== undefined ? data.category : "No data");
+
+  colorName.textContent =
+    "Color Name: " +
+    (data.colorName !== undefined ? data.colorName : "No data");
+
+  country.textContent =
+    "Davlat: " + (data.country !== undefined ? data.country : "No data");
+
+  doorCount.textContent =
+    "DoorCount: " + (data.doorCount !== undefined ? data.doorCount : "No data");
+
+  engine.textContent =
+    "Engine: " + (data.engine !== undefined ? data.engine : "No data");
+
+  city.textContent =
+    "City: " +
+    (data.fuelConsumption.city !== undefined
+      ? data.fuelConsumption.city
+      : "No data");
+
+  highway.textContent =
+    "Highway: " +
+    (data.fuelConsumption.highway !== undefined
+      ? data.fuelConsumption.highway
+      : "No data");
+
+  fuelType.textContent =
+    "FuelType: " + (data.fuelType !== undefined ? data.fuelType : "No data");
+
+  horsepower.textContent =
+    "HorsePower: " +
+    (data.horsepower !== undefined ? data.horsepower : "No data");
+
+  generation.textContent =
+    "Generation: " +
+    (data.generation !== undefined ? data.generation : "No data");
+
+  maxSpeed.textContent =
+    "maxSpeed: " + (data.maxSpeed !== undefined ? data.maxSpeed : "No data");
+
+  seatCount.textContent =
+    "SeatCount: " + (data.seatCount !== undefined ? data.seatCount : "No data");
+
+  trim.textContent =
+    "Trim: " + (data.trim !== undefined ? data.trim : "No data");
+
+  year.textContent =
+    "Year: " + (data.year !== undefined ? data.year : "No data");
 }
 window.addEventListener("DOMContentLoaded", () => {
   const id = new URLSearchParams(location.search).get("id");
@@ -60,5 +101,3 @@ window.addEventListener("DOMContentLoaded", () => {
     .catch((err) => {})
     .finally(() => {});
 });
-
-

@@ -1,4 +1,5 @@
 const elForm = document.getElementById("form");
+const elToast = document.getElementById("toast");
 
 async function register(user) {
   try {
@@ -41,6 +42,6 @@ elForm.addEventListener("submit", (evt) => {
       }
     })
     .catch((err) => {
-      alert(err.message);
+      elToast.innerText = err.message;
     });
 });
