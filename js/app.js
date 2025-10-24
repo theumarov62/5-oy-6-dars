@@ -156,6 +156,7 @@ worker.addEventListener("message", (evt) => {
     if (response.result.length > 0) {
       ui(response.result);
       elNoDataImg.src = "";
+      elNoDataImg.classList.add("hidden");
     } else {
       elNoData.classList.remove("hidden");
       elNoData.classList.add("flex");
